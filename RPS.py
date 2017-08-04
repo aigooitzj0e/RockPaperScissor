@@ -1,22 +1,37 @@
-from flask import Flask, render_template, request, redirect, session
+from flask import Flask, render_template
+import random 
 
 app = Flask(__name__)
 
+def get_computer_move():
+    options = ["rock", "paper", "scissors"]
+    return options[random.randint(0,2)]
 
-@app.route('/', methods=['POST'])
-def ropasi():
-	
-	session['rock'] = request.form['rock']
-	session['paper'] = request.form['paper']
-	session['scissor'] = request.form['scissor']
-	print session['rock']
-	rock = session['rock']
-	paper = session['paper']
-	scissor = session['scissor']
-	print rock
-	print paper
-	print scissor
-	redirect('/', rock= rock, scissor = scissor, paper = paper)
+def get_winner(player_choice, computer_choice):
+    winner = "computer"
 
+    if player_choice == computer_choice:
+        winner = "tie"
+    if player_choice == "rock" and computer_choice == "scissors":
+        winner = "player"
+    if player_choice == "scissors" and computer_choice == "paper":
+        winner = "player"
+    if player_choice == "paper" and computer_choice == "rock":
+        winner = "player"
 
-app.run(debug=True)
+    return winner
+
+@app.route('/')
+def index():
+    return render_template("index.html")
+
+@app.route('/rps/<choice>')
+def rps(choice):
+    player_choice = choice.lower()    
+    computer_choice = get_computer_move()
+    winner = get_winner(player_choice, computer_choice)
+    
+    return render_template("rps.html", winner=winner, player_choice=player_choice, computer_choice=computer_choice)
+
+if __name__ == "__main__":
+    app.run()

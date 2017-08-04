@@ -4,12 +4,10 @@
 	<title>Rock Paper Scissor</title>
 </head>
 	<body>
-		<h1>Rock Paper Scissors</h1>	
-		<p>May the odds be ever in your favor...</p>
-		<form action="/" method="post">
-		<input type="submit" name="rock">
-		<input type="submit" name="paper">
-		<input type="submit" name="scissor">
-		</form>
+		<h1>Rock Paper Scissors</h1>
+		<button><a href="{{ url_for('rps', choice='scissors') }}">Scissors</a></button>
+		<button><a href="{{ url_for('rps', choice='rock') }}">Rock</a></button>
+		<button><a href="{{ url_for('rps', choice='paper') }}">Paper</a></button>
+			
 	</body>
 </html>
